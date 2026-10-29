@@ -14,6 +14,7 @@ import {
   ShieldCheck,
   Box,
   Lock,
+  LogOut,
 } from 'lucide-react';
 import { UserRole } from '@/lib/types';
 import { useApp } from './AppShell';
@@ -28,7 +29,7 @@ interface SidebarProps {
 
 export default function Sidebar({ currentRole, activeCount, isOpen, onClose }: SidebarProps) {
   const pathname = usePathname();
-  const { permissions } = useApp();
+  const { permissions, logout } = useApp();
 
   const navItems = [
     {
@@ -176,6 +177,20 @@ export default function Sidebar({ currentRole, activeCount, isOpen, onClose }: S
               </Link>
             );
           })}
+
+          <div className="pt-2 mt-2 border-t border-slate-100">
+            <button
+              type="button"
+              onClick={async () => {
+                if (onClose) onClose();
+                await logout();
+              }}
+              className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-semibold text-rose-600 hover:text-rose-700 hover:bg-rose-50 transition-colors cursor-pointer"
+            >
+              <LogOut className="w-4 h-4 shrink-0 text-rose-600" />
+              <span>Sign Out</span>
+            </button>
+          </div>
         </nav>
       </div>
 

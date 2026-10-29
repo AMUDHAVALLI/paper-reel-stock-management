@@ -119,13 +119,14 @@ export default function Navbar({ currentRole, onRefresh, onSearch, onToggleMobil
           </div>
 
           {/* Logout / Switch Role Button */}
-          <Link
-            href="/login"
-            title="Switch User / Sign Out"
-            className="p-1.5 sm:p-2 rounded-xl bg-white hover:bg-rose-50 hover:border-rose-300 text-slate-500 hover:text-rose-600 border border-slate-200 shadow-xs transition-colors shrink-0"
+          <button
+            type="button"
+            onClick={logout}
+            title="Sign Out / Switch Role"
+            className="p-1.5 sm:p-2 rounded-xl bg-white hover:bg-rose-50 hover:border-rose-300 text-slate-500 hover:text-rose-600 border border-slate-200 shadow-xs transition-colors shrink-0 cursor-pointer"
           >
             <LogOut className="w-4 h-4" />
-          </Link>
+          </button>
         </div>
       </div>
     </header>

@@ -58,6 +58,12 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
   const [globalSearch, setGlobalSearch] = useState('');
   const [refreshKey, setRefreshKey] = useState(0);
   const [activeCount, setActiveCount] = useState(0);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  // Close mobile drawer on route changes
+  useEffect(() => {
+    setMobileMenuOpen(false);
+  }, [pathname]);
 
   // Sync role and load dynamic permissions from PostgreSQL
   const syncPermissions = async () => {
@@ -116,7 +122,11 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
   };
 
   const logout = async () => {
-    await fetch('/api/auth/logout', { method: 'POST' });
+    try {
+      await fetch('/api/auth/logout', { method: 'POST' });
+    } catch (e) {
+      console.error('Logout error:', e);
+    }
     setUserSession(null);
     router.push('/login');
   };
@@ -153,13 +163,6 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
       </AppContext.Provider>
     );
   }
-
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
-  // Close mobile drawer on route changes
-  useEffect(() => {
-    setMobileMenuOpen(false);
-  }, [pathname]);
 
   // Page-level Permission Gate Check
   let accessDeniedMessage: string | null = null;
