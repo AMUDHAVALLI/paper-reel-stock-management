@@ -73,10 +73,10 @@ export default function ConsumeModal({ reel, isOpen, onClose, onSuccess }: Consu
   };
 
   return (
-    <div className="fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-xs flex items-center justify-center p-4">
-      <div className="bg-white border border-slate-200 rounded-2xl w-full max-w-lg shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+    <div className="fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4">
+      <div className="bg-white border border-slate-200 rounded-2xl w-full max-w-lg shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200 max-h-[92vh] flex flex-col">
         {/* Header */}
-        <div className="px-6 py-4 bg-slate-50 border-b border-slate-200 flex items-center justify-between">
+        <div className="px-4 sm:px-6 py-3.5 sm:py-4 bg-slate-50 border-b border-slate-200 flex items-center justify-between shrink-0">
           <div className="flex items-center gap-2.5">
             <div className="p-2 rounded-lg bg-amber-50 text-amber-700 border border-amber-200">
               <Scissors className="w-4 h-4" />
@@ -95,7 +95,7 @@ export default function ConsumeModal({ reel, isOpen, onClose, onSuccess }: Consu
         </div>
 
         {/* Reel Specs Summary Banner */}
-        <div className="px-6 py-3 bg-amber-50/50 border-b border-slate-200 grid grid-cols-4 gap-2 text-center text-xs">
+        <div className="px-4 sm:px-6 py-2.5 sm:py-3 bg-amber-50/50 border-b border-slate-200 grid grid-cols-2 sm:grid-cols-4 gap-2 text-center text-xs shrink-0">
           <div>
             <span className="text-[10px] text-slate-500 uppercase font-semibold">Mill</span>
             <p className="font-semibold text-slate-900 truncate">{reel.millName}</p>
@@ -115,7 +115,7 @@ export default function ConsumeModal({ reel, isOpen, onClose, onSuccess }: Consu
         </div>
 
         {/* Form Body */}
-        <form onSubmit={handleSubmit} className="p-6 space-y-4">
+        <form onSubmit={handleSubmit} className="p-4 sm:p-6 space-y-4 overflow-y-auto">
           {error && (
             <div className="p-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-xs flex items-center gap-2">
               <AlertCircle className="w-4 h-4 shrink-0 text-rose-600" />

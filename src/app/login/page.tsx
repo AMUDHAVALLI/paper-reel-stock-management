@@ -53,7 +53,7 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-800 flex flex-col justify-center py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+    <div className="min-h-screen bg-slate-50 text-slate-800 flex flex-col justify-center py-8 sm:py-12 px-3 sm:px-6 lg:px-8 relative overflow-hidden">
       {/* Background ambient lighting */}
       <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[650px] h-[380px] bg-gradient-to-tr from-amber-500/10 via-amber-500/5 to-transparent rounded-full blur-3xl pointer-events-none" />
 
@@ -86,7 +86,7 @@ export default function LoginPage() {
 
       <div className="mt-7 sm:mx-auto sm:w-full sm:max-w-md relative z-10 space-y-5">
         {/* Main Login Card */}
-        <div className="theme-card bg-white border border-slate-200 py-8 px-6 shadow-xl rounded-3xl sm:px-10">
+        <div className="theme-card bg-white border border-slate-200 py-6 sm:py-8 px-4 sm:px-10 shadow-xl rounded-3xl">
           <div className="mb-6 pb-4 border-b border-slate-200 flex items-center justify-between">
             <h2 className="font-bold text-slate-900 text-base flex items-center gap-2 font-heading">
               <Crown className="w-4 h-4 text-amber-600" />

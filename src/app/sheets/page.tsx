@@ -90,12 +90,12 @@ export default function CutSheetsPage() {
   const totalValuation = sheets.reduce((s, r) => s + r.balanceAmount, 0);
 
   return (
-    <div className="space-y-6 max-w-7xl mx-auto">
+    <div className="space-y-4 sm:space-y-6 max-w-7xl mx-auto">
       {/* Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4">
         <div>
-          <h2 className="text-2xl font-black text-slate-900 tracking-tight flex items-center gap-2.5 font-heading">
-            <Box className="w-6 h-6 text-amber-600" />
+          <h2 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight flex items-center gap-2.5 font-heading">
+            <Box className="w-5 sm:w-6 h-5 sm:h-6 text-amber-600" />
             Cut Sheet & Duplex Stock Management
           </h2>
           <p className="text-xs text-slate-500 mt-1 font-medium">
@@ -105,7 +105,7 @@ export default function CutSheetsPage() {
 
         <button
           onClick={() => setShowAddModal(true)}
-          className="flex items-center gap-2 px-5 py-2.5 btn-theme-primary text-xs font-bold"
+          className="w-full sm:w-auto flex items-center justify-center gap-2 px-5 py-2.5 btn-theme-primary text-xs font-bold"
         >
           <Plus className="w-4 h-4" />
           <span>Add Sheet Stock</span>
@@ -113,22 +113,22 @@ export default function CutSheetsPage() {
       </div>
 
       {/* KPI Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <div className="p-5 rounded-2xl theme-card bg-white border border-slate-200 shadow-xs">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
+        <div className="p-4 sm:p-5 rounded-2xl theme-card bg-white border border-slate-200 shadow-xs">
           <span className="text-[11px] text-slate-500 uppercase font-bold font-heading">Available Sheet Stock</span>
           <h3 className="text-2xl font-black font-heading text-emerald-600 mt-1">
             {totalBalanceWeight.toFixed(1)} KG
           </h3>
           <p className="text-xs text-slate-500 mt-1 font-medium">Ready for printing / punching</p>
         </div>
-        <div className="p-5 rounded-2xl theme-card bg-white border border-slate-200 shadow-xs">
+        <div className="p-4 sm:p-5 rounded-2xl theme-card bg-white border border-slate-200 shadow-xs">
           <span className="text-[11px] text-slate-500 uppercase font-bold font-heading">Total Inward Weight</span>
           <h3 className="text-2xl font-black font-heading text-amber-600 mt-1">
             {totalSheetWeight.toFixed(1)} KG
           </h3>
           <p className="text-xs text-slate-500 mt-1 font-medium">{sheets.length} Batches inwarded</p>
         </div>
-        <div className="p-5 rounded-2xl theme-card bg-white border border-slate-200 shadow-xs">
+        <div className="p-4 sm:p-5 rounded-2xl theme-card bg-white border border-slate-200 shadow-xs">
           <span className="text-[11px] text-slate-500 uppercase font-bold font-heading">Stock Valuation</span>
           <h3 className="text-2xl font-black font-heading text-purple-600 mt-1">
             {isOperator ? '••••••' : `₹${totalValuation.toLocaleString('en-IN', { maximumFractionDigits: 0 })}`}
@@ -139,13 +139,13 @@ export default function CutSheetsPage() {
 
       {/* Sheet Stock Table */}
       <div className="theme-card bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-xs">
-        <div className="px-6 py-4 bg-slate-50 border-b border-slate-200 flex items-center justify-between">
+        <div className="px-4 sm:px-6 py-4 bg-slate-50 border-b border-slate-200 flex items-center justify-between">
           <h3 className="font-bold text-slate-900 text-sm font-heading">Cut Sheet Inventory</h3>
           <span className="text-xs text-amber-600 font-mono font-bold">{sheets.length} Batches</span>
         </div>
 
-        <div className="overflow-x-auto">
-          <table className="w-full text-left border-collapse text-xs">
+        <div className="overflow-x-auto -mx-1 sm:mx-0">
+          <table className="w-full text-left border-collapse text-xs min-w-[700px]">
             <thead>
               <tr className="border-b border-slate-200 text-slate-600 uppercase text-[10px] tracking-wider bg-slate-50 font-heading font-bold">
                 <th className="py-3 px-3">Date</th>

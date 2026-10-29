@@ -77,20 +77,20 @@ export default function DashboardPage() {
   };
 
   return (
-    <div className="space-y-6 max-w-7xl mx-auto">
+    <div className="space-y-4 sm:space-y-6 max-w-7xl mx-auto">
       {/* Top Banner / onpackaging.in Plant Aesthetic */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-gradient-to-r from-amber-500/10 via-amber-500/5 to-white p-6 rounded-2xl border border-amber-300/40 shadow-xs relative overflow-hidden">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-gradient-to-r from-amber-500/10 via-amber-500/5 to-white p-4 sm:p-6 rounded-2xl border border-amber-300/40 shadow-xs relative overflow-hidden">
         <div className="absolute right-0 top-0 bottom-0 w-80 bg-gradient-to-l from-amber-500/10 to-transparent pointer-events-none" />
         <div>
-          <div className="flex items-center gap-2">
-            <span className="px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider badge-pill-brand font-heading">
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="px-2.5 sm:px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider badge-pill-brand font-heading">
               70–90 TONNES / MONTH PLANT
             </span>
             <span className="text-xs text-slate-500 font-medium">
               OM Namasivayam Packaging • Puducherry
             </span>
           </div>
-          <h2 className="text-2xl sm:text-3xl font-black text-slate-900 mt-1.5 tracking-tight font-heading">
+          <h2 className="text-xl sm:text-2xl md:text-3xl font-black text-slate-900 mt-1.5 tracking-tight font-heading">
             Paper Reel Stock & Corrugation ERP
           </h2>
           <p className="text-xs text-slate-600 mt-1 font-medium">
@@ -98,17 +98,17 @@ export default function DashboardPage() {
           </p>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-3 w-full md:w-auto">
           <Link
             href="/inward"
-            className="flex items-center gap-2 px-5 py-2.5 btn-theme-primary text-xs font-bold"
+            className="flex items-center justify-center gap-2 px-4 sm:px-5 py-2.5 btn-theme-primary text-xs font-bold text-center"
           >
             <PackagePlus className="w-4 h-4" />
             <span>Inward New Roll</span>
           </Link>
           <Link
             href="/consumption"
-            className="flex items-center gap-2 px-4 py-2.5 btn-theme-secondary text-xs font-semibold"
+            className="flex items-center justify-center gap-2 px-4 py-2.5 btn-theme-secondary text-xs font-semibold text-center"
           >
             <Scissors className="w-4 h-4 text-amber-600" />
             <span>Issue to Line</span>
@@ -117,7 +117,7 @@ export default function DashboardPage() {
       </div>
 
       {/* KPI Cards Row */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
         <KPICard
           title="Available Balance Stock"
           value={summary ? formatKg(summary.balanceWeight) : '...'}
@@ -302,8 +302,8 @@ export default function DashboardPage() {
           </Link>
         </div>
 
-        <div className="overflow-x-auto">
-          <table className="w-full text-left border-collapse text-xs">
+        <div className="overflow-x-auto -mx-2 sm:mx-0">
+          <table className="w-full text-left border-collapse text-xs min-w-[720px]">
             <thead>
               <tr className="border-b border-slate-200 text-slate-600 uppercase text-[10px] tracking-wider bg-slate-50 font-heading font-bold">
                 <th className="py-3 px-3">Reel #</th>

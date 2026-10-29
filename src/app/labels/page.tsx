@@ -95,12 +95,12 @@ export default function LabelsPrintStudioPage() {
   const selectedReelsList = reels.filter((r) => selectedIds.has(r.id));
 
   return (
-    <div className="space-y-6 max-w-7xl mx-auto">
+    <div className="space-y-4 sm:space-y-6 max-w-7xl mx-auto">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 no-print">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4 no-print">
         <div>
-          <h2 className="text-2xl font-black text-slate-900 tracking-tight flex items-center gap-2.5 font-heading">
-            <QrCode className="w-6 h-6 text-amber-600" />
+          <h2 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight flex items-center gap-2.5 font-heading">
+            <QrCode className="w-5 sm:w-6 h-5 sm:h-6 text-amber-600" />
             Barcode & QR Label Print Studio
           </h2>
           <p className="text-xs text-slate-500 mt-1 font-medium">
@@ -108,14 +108,14 @@ export default function LabelsPrintStudioPage() {
           </p>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center justify-between sm:justify-end gap-3 w-full sm:w-auto">
           <span className="text-xs text-slate-500 font-mono">
             {selectedIds.size} of {reels.length} selected
           </span>
           <button
             onClick={() => window.print()}
             disabled={selectedIds.size === 0}
-            className="flex items-center gap-2 px-5 py-2.5 btn-theme-primary text-xs font-bold disabled:opacity-50"
+            className="flex items-center justify-center gap-2 px-4 sm:px-5 py-2.5 btn-theme-primary text-xs font-bold disabled:opacity-50"
           >
             <Printer className="w-4 h-4" />
             <span>Print {selectedIds.size} Labels</span>
@@ -124,9 +124,9 @@ export default function LabelsPrintStudioPage() {
       </div>
 
       {/* Selector & Preview Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6">
         {/* Left: Reel Selection List (5 cols) */}
-        <div className="lg:col-span-5 theme-card bg-white border border-slate-200 rounded-2xl p-5 shadow-xs flex flex-col h-[700px] no-print">
+        <div className="lg:col-span-5 theme-card bg-white border border-slate-200 rounded-2xl p-4 sm:p-5 shadow-xs flex flex-col h-72 sm:h-80 lg:h-[700px] no-print">
           <div className="flex items-center justify-between mb-3">
             <h3 className="font-bold text-slate-900 text-sm font-heading">Select Rolls</h3>
             <button

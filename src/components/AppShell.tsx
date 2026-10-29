@@ -154,6 +154,13 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
     );
   }
 
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  // Close mobile drawer on route changes
+  useEffect(() => {
+    setMobileMenuOpen(false);
+  }, [pathname]);
+
   // Page-level Permission Gate Check
   let accessDeniedMessage: string | null = null;
   if (pathname === '/admin' && !permissions.canAccessAdmin && currentRole !== 'ADMIN') {
@@ -186,16 +193,19 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
           currentRole={currentRole}
           onRoleChange={handleRoleChange}
           activeCount={activeCount}
+          isOpen={mobileMenuOpen}
+          onClose={() => setMobileMenuOpen(false)}
         />
         <div className="flex-1 flex flex-col min-w-0">
           <Navbar
             currentRole={currentRole}
             onRefresh={triggerRefresh}
             onSearch={setGlobalSearch}
+            onToggleMobileMenu={() => setMobileMenuOpen((prev) => !prev)}
           />
-          <main className="flex-1 p-6 overflow-y-auto">
+          <main className="flex-1 p-3 sm:p-5 md:p-6 overflow-y-auto">
             {accessDeniedMessage ? (
-              <div className="max-w-2xl mx-auto mt-12 bg-white border border-rose-300 rounded-3xl p-8 text-center shadow-lg space-y-4 theme-card">
+              <div className="max-w-2xl mx-auto mt-6 sm:mt-12 bg-white border border-rose-300 rounded-3xl p-6 sm:p-8 text-center shadow-lg space-y-4 theme-card">
                 <div className="w-16 h-16 rounded-2xl bg-rose-50 border border-rose-200 text-rose-600 flex items-center justify-center mx-auto">
                   <Lock className="w-8 h-8" />
                 </div>
@@ -205,17 +215,17 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
                 <p className="text-xs text-slate-600 leading-relaxed max-w-lg mx-auto">
                   {accessDeniedMessage}
                 </p>
-                <div className="pt-4 flex items-center justify-center gap-3">
+                <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-3">
                   <Link
                     href="/"
-                    className="btn-theme-secondary flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-heading font-bold text-slate-700"
+                    className="w-full sm:w-auto btn-theme-secondary flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl text-xs font-heading font-bold text-slate-700"
                   >
                     <ArrowLeft className="w-4 h-4" />
                     <span>Back to Dashboard</span>
                   </Link>
                   <Link
                     href="/login"
-                    className="btn-theme-primary px-5 py-2.5 rounded-xl text-white text-xs font-heading font-bold shadow-md shadow-amber-500/20"
+                    className="w-full sm:w-auto btn-theme-primary px-5 py-2.5 rounded-xl text-white text-xs font-heading font-bold shadow-md shadow-amber-500/20 text-center"
                   >
                     Switch Account / Role
                   </Link>

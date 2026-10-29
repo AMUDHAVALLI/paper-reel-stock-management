@@ -162,12 +162,12 @@ export default function StockRegisterPage() {
   };
 
   return (
-    <div className="space-y-6 max-w-7xl mx-auto">
+    <div className="space-y-4 sm:space-y-6 max-w-7xl mx-auto">
       {/* Page Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h2 className="text-2xl font-black text-slate-900 tracking-tight flex items-center gap-2.5 font-heading">
-            <Layers className="w-6 h-6 text-amber-600" />
+          <h2 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight flex items-center gap-2.5 font-heading">
+            <Layers className="w-5 sm:w-6 h-5 sm:h-6 text-amber-600" />
             Live Reel Stock Register
           </h2>
           <p className="text-xs text-slate-500 mt-1 font-medium">
@@ -175,12 +175,12 @@ export default function StockRegisterPage() {
           </p>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 sm:gap-3 w-full md:w-auto">
           {/* View toggle */}
-          <div className="bg-slate-100 border border-slate-200 p-1 rounded-xl flex items-center text-xs">
+          <div className="bg-slate-100 border border-slate-200 p-1 rounded-xl flex items-center justify-center text-xs">
             <button
               onClick={() => setViewMode('grouped')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
+              className={`flex-1 sm:flex-none text-center px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
                 viewMode === 'grouped'
                   ? 'btn-theme-primary text-white shadow-xs'
                   : 'text-slate-600 hover:text-slate-900'
@@ -190,7 +190,7 @@ export default function StockRegisterPage() {
             </button>
             <button
               onClick={() => setViewMode('flat')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
+              className={`flex-1 sm:flex-none text-center px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
                 viewMode === 'flat'
                   ? 'btn-theme-primary text-white shadow-xs'
                   : 'text-slate-600 hover:text-slate-900'
@@ -202,7 +202,7 @@ export default function StockRegisterPage() {
 
           <button
             onClick={handleExportExcel}
-            className="flex items-center gap-2 px-4 py-2 rounded-xl btn-theme-secondary text-xs font-semibold"
+            className="flex items-center justify-center gap-2 px-4 py-2 rounded-xl btn-theme-secondary text-xs font-semibold"
           >
             <Download className="w-4 h-4 text-amber-600" />
             <span>Export Excel</span>
@@ -211,8 +211,8 @@ export default function StockRegisterPage() {
       </div>
 
       {/* Filter Toolbar */}
-      <div className="theme-card bg-white border border-slate-200 rounded-2xl p-4 shadow-xs flex flex-wrap items-center gap-3">
-        <div className="relative flex-1 min-w-[220px]">
+      <div className="theme-card bg-white border border-slate-200 rounded-2xl p-3 sm:p-4 shadow-xs flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center gap-2.5 sm:gap-3">
+        <div className="relative flex-1 min-w-[200px]">
           <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
           <input
             type="text"
@@ -224,12 +224,12 @@ export default function StockRegisterPage() {
         </div>
 
         {/* GSM Filter */}
-        <div className="flex items-center gap-1.5">
-          <span className="text-[11px] text-slate-500 uppercase font-bold font-heading">GSM:</span>
+        <div className="flex items-center justify-between sm:justify-start gap-1.5">
+          <span className="text-[11px] text-slate-500 uppercase font-bold font-heading shrink-0">GSM:</span>
           <select
             value={selectedGsm}
             onChange={(e) => setSelectedGsm(e.target.value)}
-            className="bg-slate-50 border border-slate-200 text-xs text-slate-800 rounded-xl px-2.5 py-2 outline-none focus:border-amber-500 focus:bg-white transition-colors"
+            className="w-full sm:w-auto bg-slate-50 border border-slate-200 text-xs text-slate-800 rounded-xl px-2.5 py-2 outline-none focus:border-amber-500 focus:bg-white transition-colors"
           >
             <option value="ALL">All GSM</option>
             {availableGsms.map((gsm) => (
@@ -241,12 +241,12 @@ export default function StockRegisterPage() {
         </div>
 
         {/* Mill Filter */}
-        <div className="flex items-center gap-1.5">
-          <span className="text-[11px] text-slate-500 uppercase font-bold font-heading">Mill:</span>
+        <div className="flex items-center justify-between sm:justify-start gap-1.5">
+          <span className="text-[11px] text-slate-500 uppercase font-bold font-heading shrink-0">Mill:</span>
           <select
             value={selectedMill}
             onChange={(e) => setSelectedMill(e.target.value)}
-            className="bg-slate-50 border border-slate-200 text-xs text-slate-800 rounded-xl px-2.5 py-2 outline-none focus:border-amber-500 focus:bg-white transition-colors"
+            className="w-full sm:w-auto bg-slate-50 border border-slate-200 text-xs text-slate-800 rounded-xl px-2.5 py-2 outline-none focus:border-amber-500 focus:bg-white transition-colors"
           >
             <option value="ALL">All Mills</option>
             {availableMills.map((mill) => (
@@ -258,8 +258,8 @@ export default function StockRegisterPage() {
         </div>
 
         {/* Status Filter */}
-        <div className="flex items-center gap-1.5">
-          <span className="text-[11px] text-slate-500 uppercase font-bold font-heading">Status:</span>
+        <div className="flex items-center justify-between sm:justify-start gap-1.5">
+          <span className="text-[11px] text-slate-500 uppercase font-bold font-heading shrink-0">Status:</span>
           <select
             value={selectedStatus}
             onChange={(e) => setSelectedStatus(e.target.value)}
@@ -317,7 +317,7 @@ export default function StockRegisterPage() {
                   </div>
 
                   {/* Group Subtotals Banner */}
-                  <div className="flex items-center gap-4 text-xs font-mono">
+                  <div className="flex flex-wrap items-center gap-2 sm:gap-4 text-xs font-mono">
                     <span className="text-slate-500">
                       Inward: <strong className="text-slate-800">{groupTotalWeight.toFixed(1)} KG</strong>
                     </span>
@@ -328,7 +328,7 @@ export default function StockRegisterPage() {
                       Bal Stock: <strong className="text-emerald-600 font-bold">{groupBalanceWeight.toFixed(1)} KG</strong>
                     </span>
                     {!isOperator && (
-                      <span className="text-slate-500 pl-3 border-l border-slate-200">
+                      <span className="text-slate-500 sm:pl-3 sm:border-l sm:border-slate-200">
                         Bal Value: <strong className="text-amber-600 font-bold">{formatCurrency(groupBalanceAmount)}</strong>
                       </span>
                     )}
@@ -337,8 +337,8 @@ export default function StockRegisterPage() {
 
                 {/* Section Content Table */}
                 {!isCollapsed && (
-                  <div className="overflow-x-auto">
-                    <table className="w-full text-left border-collapse text-xs">
+                  <div className="overflow-x-auto -mx-1 sm:mx-0">
+                    <table className="w-full text-left border-collapse text-xs min-w-[850px]">
                       <thead>
                         <tr className="border-b border-slate-200 text-slate-600 uppercase text-[10px] tracking-wider bg-slate-50 font-heading font-bold">
                           <th className="py-2.5 px-3">SL</th>
@@ -423,8 +423,8 @@ export default function StockRegisterPage() {
       ) : (
         /* Master Flat Table */
         <div className="theme-card bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-xs">
-          <div className="overflow-x-auto">
-            <table className="w-full text-left border-collapse text-xs">
+          <div className="overflow-x-auto -mx-1 sm:mx-0">
+            <table className="w-full text-left border-collapse text-xs min-w-[850px]">
               <thead>
                 <tr className="border-b border-slate-200 text-slate-600 uppercase text-[10px] tracking-wider bg-slate-50 font-heading font-bold">
                   <th className="py-3 px-3">SL</th>

@@ -189,12 +189,12 @@ export default function ReelInwardPage() {
   };
 
   return (
-    <div className="space-y-6 max-w-5xl mx-auto">
+    <div className="space-y-4 sm:space-y-6 max-w-5xl mx-auto">
       {/* Page Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h2 className="text-2xl font-black text-slate-900 tracking-tight flex items-center gap-2.5 font-heading">
-            <PackagePlus className="w-6 h-6 text-amber-600" />
+          <h2 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight flex items-center gap-2.5 font-heading">
+            <PackagePlus className="w-5 sm:w-6 h-5 sm:h-6 text-amber-600" />
             Reel Inward & Purchase Entry (Stock In)
           </h2>
           <p className="text-xs text-slate-500 mt-1 font-medium">
@@ -203,36 +203,36 @@ export default function ReelInwardPage() {
         </div>
 
         {/* Mode Tabs */}
-        <div className="bg-slate-100 border border-slate-200 p-1 rounded-xl flex items-center text-xs">
+        <div className="bg-slate-100 border border-slate-200 p-1 rounded-xl grid grid-cols-3 sm:flex items-center gap-1 w-full sm:w-auto">
           <button
             onClick={() => setInwardMode('single')}
-            className={`px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all ${
+            className={`text-center justify-center px-2 sm:px-3.5 py-1.5 rounded-lg text-[11px] sm:text-xs font-bold transition-all ${
               inwardMode === 'single'
                 ? 'btn-theme-primary text-white shadow-xs'
                 : 'text-slate-600 hover:text-slate-900'
             }`}
           >
-            Single Roll Entry
+            Single Roll
           </button>
           <button
             onClick={() => setInwardMode('batch')}
-            className={`px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all ${
+            className={`text-center justify-center px-2 sm:px-3.5 py-1.5 rounded-lg text-[11px] sm:text-xs font-bold transition-all ${
               inwardMode === 'batch'
                 ? 'btn-theme-primary text-white shadow-xs'
                 : 'text-slate-600 hover:text-slate-900'
             }`}
           >
-            Multi-Roll Invoice
+            Multi-Roll
           </button>
           <button
             onClick={() => setInwardMode('excel')}
-            className={`px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all ${
+            className={`text-center justify-center px-2 sm:px-3.5 py-1.5 rounded-lg text-[11px] sm:text-xs font-bold transition-all ${
               inwardMode === 'excel'
                 ? 'btn-theme-primary text-white shadow-xs'
                 : 'text-slate-600 hover:text-slate-900'
             }`}
           >
-            Excel File Import
+            Excel File
           </button>
         </div>
       </div>
@@ -564,9 +564,20 @@ export default function ReelInwardPage() {
                 {batchRows.map((row, idx) => (
                   <div
                     key={idx}
-                    className="p-3 rounded-xl bg-slate-50 border border-slate-200 flex items-center gap-3"
+                    className="p-3 rounded-xl bg-slate-50 border border-slate-200 flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-3"
                   >
-                    <span className="text-slate-400 font-mono text-xs w-6">#{idx + 1}</span>
+                    <div className="flex items-center justify-between sm:w-auto">
+                      <span className="text-slate-400 font-mono text-xs w-6">#{idx + 1}</span>
+                      {batchRows.length > 1 && (
+                        <button
+                          type="button"
+                          onClick={() => setBatchRows(batchRows.filter((_, i) => i !== idx))}
+                          className="sm:hidden text-slate-400 hover:text-rose-600 p-1 transition-colors"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      )}
+                    </div>
                     <input
                       type="text"
                       placeholder="Reel Number (e.g. 10650)"
@@ -576,36 +587,38 @@ export default function ReelInwardPage() {
                         updated[idx].reelNo = e.target.value;
                         setBatchRows(updated);
                       }}
-                      className="flex-1 bg-white border border-slate-200 focus:border-amber-500 rounded-lg px-3 py-1.5 text-xs text-slate-800 font-mono outline-none transition-colors"
+                      className="flex-1 w-full sm:w-auto bg-white border border-slate-200 focus:border-amber-500 rounded-lg px-3 py-1.5 text-xs text-slate-800 font-mono outline-none transition-colors"
                     />
-                    <input
-                      type="number"
-                      step="0.1"
-                      placeholder="Weight (KG)"
-                      value={row.weight}
-                      onChange={(e) => {
-                        const updated = [...batchRows];
-                        updated[idx].weight = e.target.value;
-                        setBatchRows(updated);
-                      }}
-                      className="w-32 bg-white border border-slate-200 focus:border-amber-500 rounded-lg px-3 py-1.5 text-xs text-slate-800 font-mono outline-none transition-colors"
-                    />
-                    <input
-                      type="text"
-                      placeholder="Bay / Location"
-                      value={row.bayLocation}
-                      onChange={(e) => {
-                        const updated = [...batchRows];
-                        updated[idx].bayLocation = e.target.value;
-                        setBatchRows(updated);
-                      }}
-                      className="w-32 bg-white border border-slate-200 focus:border-amber-500 rounded-lg px-3 py-1.5 text-xs text-slate-800 outline-none transition-colors"
-                    />
+                    <div className="flex items-center gap-2">
+                      <input
+                        type="number"
+                        step="0.1"
+                        placeholder="Weight (KG)"
+                        value={row.weight}
+                        onChange={(e) => {
+                          const updated = [...batchRows];
+                          updated[idx].weight = e.target.value;
+                          setBatchRows(updated);
+                        }}
+                        className="w-1/2 sm:w-32 bg-white border border-slate-200 focus:border-amber-500 rounded-lg px-3 py-1.5 text-xs text-slate-800 font-mono outline-none transition-colors"
+                      />
+                      <input
+                        type="text"
+                        placeholder="Bay / Location"
+                        value={row.bayLocation}
+                        onChange={(e) => {
+                          const updated = [...batchRows];
+                          updated[idx].bayLocation = e.target.value;
+                          setBatchRows(updated);
+                        }}
+                        className="w-1/2 sm:w-32 bg-white border border-slate-200 focus:border-amber-500 rounded-lg px-3 py-1.5 text-xs text-slate-800 outline-none transition-colors"
+                      />
+                    </div>
                     {batchRows.length > 1 && (
                       <button
                         type="button"
                         onClick={() => setBatchRows(batchRows.filter((_, i) => i !== idx))}
-                        className="text-slate-400 hover:text-rose-600 p-1 transition-colors"
+                        className="hidden sm:block text-slate-400 hover:text-rose-600 p-1 transition-colors shrink-0"
                       >
                         <Trash2 className="w-4 h-4" />
                       </button>

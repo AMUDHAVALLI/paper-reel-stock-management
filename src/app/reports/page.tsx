@@ -100,12 +100,12 @@ export default function ValuationReportsPage() {
   };
 
   return (
-    <div className="space-y-6 max-w-7xl mx-auto">
+    <div className="space-y-4 sm:space-y-6 max-w-7xl mx-auto">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 no-print">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 sm:gap-4 no-print">
         <div>
-          <h2 className="text-2xl font-black text-slate-900 tracking-tight flex items-center gap-2.5 font-heading">
-            <BarChart3 className="w-6 h-6 text-amber-600" />
+          <h2 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight flex items-center gap-2.5 font-heading">
+            <BarChart3 className="w-5 sm:w-6 h-5 sm:h-6 text-amber-600" />
             Stock Valuation & Audit Statements (FY 2026-2027)
           </h2>
           <p className="text-xs text-slate-500 mt-1 font-medium">
@@ -113,17 +113,17 @@ export default function ValuationReportsPage() {
           </p>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 sm:gap-3 w-full md:w-auto">
           <button
             onClick={() => window.print()}
-            className="flex items-center gap-2 px-4 py-2 rounded-xl btn-theme-secondary text-xs font-semibold"
+            className="flex items-center justify-center gap-2 px-4 py-2 rounded-xl btn-theme-secondary text-xs font-semibold"
           >
             <Printer className="w-4 h-4 text-amber-600" />
             <span>Print Report</span>
           </button>
           <button
             onClick={handleExportFullValuation}
-            className="flex items-center gap-2 px-5 py-2.5 btn-theme-primary text-xs font-bold"
+            className="flex items-center justify-center gap-2 px-4 sm:px-5 py-2.5 btn-theme-primary text-xs font-bold"
           >
             <Download className="w-4 h-4" />
             <span>Export Valuation Excel</span>
@@ -132,8 +132,8 @@ export default function ValuationReportsPage() {
       </div>
 
       {/* Official Audit Summary Table (Mirror of Row 181 in Excel) */}
-      <div className="theme-card bg-white border border-slate-200 rounded-2xl p-6 shadow-xs">
-        <div className="border-b border-slate-200 pb-3 mb-4 flex items-center justify-between">
+      <div className="theme-card bg-white border border-slate-200 rounded-2xl p-4 sm:p-6 shadow-xs">
+        <div className="border-b border-slate-200 pb-3 mb-4 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
           <div>
             <span className="text-[10px] font-bold uppercase tracking-wider text-amber-800 bg-amber-100 px-2.5 py-0.5 rounded-full border border-amber-200 font-heading">
               Official Closing Stock Statement
@@ -147,7 +147,7 @@ export default function ValuationReportsPage() {
           </span>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 font-mono text-center">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 font-mono text-center">
           <div className="p-4 rounded-xl bg-slate-50 border border-slate-200">
             <span className="text-[10px] uppercase text-slate-500 font-sans font-bold block mb-1">
               TOTAL STOCK INWARDED
@@ -193,10 +193,10 @@ export default function ValuationReportsPage() {
       </div>
 
       {/* Detailed GSM Quality Valuation Breakdown */}
-      <div className="theme-card bg-white border border-slate-200 rounded-2xl p-6 shadow-xs">
+      <div className="theme-card bg-white border border-slate-200 rounded-2xl p-4 sm:p-6 shadow-xs">
         <h3 className="font-bold text-slate-900 text-sm mb-3 font-heading">GSM & Quality Category Ledger</h3>
-        <div className="overflow-x-auto">
-          <table className="w-full text-left border-collapse text-xs">
+        <div className="overflow-x-auto -mx-1 sm:mx-0">
+          <table className="w-full text-left border-collapse text-xs min-w-[720px]">
             <thead>
               <tr className="border-b border-slate-200 text-slate-600 uppercase text-[10px] tracking-wider bg-slate-50 font-heading font-bold">
                 <th className="py-3 px-3">Quality Category</th>
@@ -256,10 +256,10 @@ export default function ValuationReportsPage() {
       </div>
 
       {/* Mill Supplier Analysis */}
-      <div className="theme-card bg-white border border-slate-200 rounded-2xl p-6 shadow-xs">
+      <div className="theme-card bg-white border border-slate-200 rounded-2xl p-4 sm:p-6 shadow-xs">
         <h3 className="font-bold text-slate-900 text-sm mb-3 font-heading">Paper Mill Supplier Distribution</h3>
-        <div className="overflow-x-auto">
-          <table className="w-full text-left border-collapse text-xs">
+        <div className="overflow-x-auto -mx-1 sm:mx-0">
+          <table className="w-full text-left border-collapse text-xs min-w-[650px]">
             <thead>
               <tr className="border-b border-slate-200 text-slate-600 uppercase text-[10px] tracking-wider bg-slate-50 font-semibold">
                 <th className="py-3 px-3">Mill / Supplier Name</th>

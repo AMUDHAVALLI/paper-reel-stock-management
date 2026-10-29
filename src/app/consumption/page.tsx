@@ -143,11 +143,11 @@ export default function ConsumptionPage() {
   };
 
   return (
-    <div className="space-y-6 max-w-7xl mx-auto">
+    <div className="space-y-4 sm:space-y-6 max-w-7xl mx-auto">
       {/* Header */}
       <div>
-        <h2 className="text-2xl font-black text-slate-900 tracking-tight flex items-center gap-2.5 font-heading">
-          <Scissors className="w-6 h-6 text-amber-600" />
+        <h2 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight flex items-center gap-2.5 font-heading">
+          <Scissors className="w-5 sm:w-6 h-5 sm:h-6 text-amber-600" />
           Reel Consumption & Machine Issue (Stock Out)
         </h2>
         <p className="text-xs text-slate-500 mt-1 font-medium">
@@ -171,9 +171,9 @@ export default function ConsumptionPage() {
       )}
 
       {/* Main Grid: Selection & Issue Form */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6">
         {/* Left Col: Roll Selection & Lookup (5 cols) */}
-        <div className="lg:col-span-5 theme-card bg-white border border-slate-200 rounded-2xl p-5 shadow-xs flex flex-col h-[620px]">
+        <div className="lg:col-span-5 theme-card bg-white border border-slate-200 rounded-2xl p-4 sm:p-5 shadow-xs flex flex-col h-72 sm:h-80 lg:h-[620px]">
           <h3 className="font-bold text-slate-900 text-sm mb-3 flex items-center gap-2 font-heading">
             <Layers className="w-4 h-4 text-amber-600" />
             Select Roll to Issue ({availableReels.length} Available)
@@ -406,8 +406,8 @@ export default function ConsumptionPage() {
           </div>
         </div>
 
-        <div className="overflow-x-auto">
-          <table className="w-full text-left border-collapse text-xs">
+        <div className="overflow-x-auto -mx-1 sm:mx-0">
+          <table className="w-full text-left border-collapse text-xs min-w-[650px]">
             <thead>
               <tr className="border-b border-slate-200 text-slate-600 uppercase text-[10px] tracking-wider bg-slate-50 font-heading font-bold">
                 <th className="py-3 px-3">Date</th>
