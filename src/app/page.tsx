@@ -24,7 +24,7 @@ import ConsumeModal from '@/components/ConsumeModal';
 import QRCodeModal from '@/components/QRCodeModal';
 
 export default function DashboardPage() {
-  const { currentRole, refreshKey, setActiveCount } = useApp();
+  const { currentRole, refreshKey, setActiveCount, lowStockReels } = useApp();
   const [summary, setSummary] = useState<StockSummary | null>(null);
   const [recentReels, setRecentReels] = useState<Reel[]>([]);
   const [recentLogs, setRecentLogs] = useState<ConsumptionLog[]>([]);
@@ -115,6 +115,46 @@ export default function DashboardPage() {
           </Link>
         </div>
       </div>
+
+      {/* Low Stock (<= 20%) In-App Notification Alert Banner */}
+      {lowStockReels.length > 0 && (
+        <div className="bg-gradient-to-r from-rose-50 via-amber-50 to-white border border-rose-200/80 rounded-2xl p-4 sm:p-5 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div className="flex items-center gap-3">
+            <div className="p-2.5 rounded-xl bg-rose-100 text-rose-700 shrink-0 animate-pulse">
+              <AlertTriangle className="w-5 h-5 text-rose-600" />
+            </div>
+            <div>
+              <div className="flex items-center gap-2">
+                <span className="text-xs font-black font-heading uppercase tracking-wide text-rose-800">
+                  Low Stock Notification Alert (≤ 20% Threshold)
+                </span>
+                <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-rose-600 text-white">
+                  {lowStockReels.length} Roll{lowStockReels.length === 1 ? '' : 's'} Critical
+                </span>
+              </div>
+              <p className="text-xs text-slate-600 mt-0.5 font-medium">
+                {lowStockReels.length === 1
+                  ? `Reel #${lowStockReels[0].reelNo} (${lowStockReels[0].millName}) has only ${lowStockReels[0].balancePercentage}% (${lowStockReels[0].balanceWeight} KG) balance weight remaining.`
+                  : `${lowStockReels.length} paper reels have reached 20% or less balance weight. Reorder / stock replenishment recommended.`}
+              </p>
+            </div>
+          </div>
+          <div className="flex items-center gap-2 shrink-0">
+            <Link
+              href="/consumption"
+              className="px-3.5 py-1.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-white text-xs font-bold font-heading shadow-xs transition-colors"
+            >
+              Issue / Manage Stock
+            </Link>
+            <Link
+              href="/register"
+              className="px-3.5 py-1.5 rounded-xl bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 text-xs font-semibold font-heading shadow-xs transition-colors"
+            >
+              View in Register
+            </Link>
+          </div>
+        </div>
+      )}
 
       {/* KPI Cards Row */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">

@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { X, Scissors, AlertCircle, CheckCircle2, RotateCcw } from 'lucide-react';
 import { Reel } from '@/lib/types';
+import { useApp } from './AppShell';
 
 interface ConsumeModalProps {
   reel: Reel | null;
@@ -12,6 +13,7 @@ interface ConsumeModalProps {
 }
 
 export default function ConsumeModal({ reel, isOpen, onClose, onSuccess }: ConsumeModalProps) {
+  const { throwNotification } = useApp();
   const [consumedWeight, setConsumedWeight] = useState<string>('');
   const [machineId, setMachineId] = useState('Corrugator Line 1');
   const [jobOrderNo, setJobOrderNo] = useState('');
@@ -61,6 +63,18 @@ export default function ConsumeModal({ reel, isOpen, onClose, onSuccess }: Consu
       const data = await res.json();
       if (!res.ok || !data.success) {
         throw new Error(data.error || 'Failed to process consumption');
+      }
+
+      if (data.data?.lowStockAlert?.triggered) {
+        const alert = data.data.lowStockAlert;
+        throwNotification({
+          type: 'LOW_STOCK',
+          title: 'Low Stock Alert (≤ 20%)',
+          message: `Reel #${alert.reelNo} (${alert.millName}, ${alert.gsm} GSM) balance reached ${alert.balancePercentage}% (${alert.balanceWeight} KG remaining)!`,
+          reelNo: alert.reelNo,
+          balancePercentage: alert.balancePercentage,
+          balanceWeight: alert.balanceWeight,
+        });
       }
 
       onSuccess();

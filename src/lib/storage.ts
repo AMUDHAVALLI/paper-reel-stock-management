@@ -1,6 +1,5 @@
 import { prisma } from './prisma';
 import { Reel, ConsumptionLog, AuditLog, StockSummary } from './types';
-import { sendLowStockAlert } from './email';
 import fs from 'fs';
 import path from 'path';
 
@@ -210,6 +209,18 @@ export async function consumeReel(params: {
 }): Promise<{
   reel: Reel;
   log: ConsumptionLog;
+  lowStockAlert?: {
+    triggered: boolean;
+    reelNo: string;
+    millName: string;
+    sizeDesc: string;
+    gsm: number;
+    initialWeight: number;
+    consumedWeight: number;
+    balanceWeight: number;
+    balancePercentage: number;
+    message: string;
+  };
   emailAlert?: { triggered: boolean; sent: boolean; recipient: string; percentage: number };
 }> {
   const reel = await prisma.reel.findFirst({
@@ -273,36 +284,47 @@ export async function consumeReel(params: {
     }),
   ]);
 
-  // Check if Balance Weight reaches 20% (or less)
+  // Check if Balance Weight reaches 20% (or less) -> In-App Notification (Do NOT send email)
   const balancePercentage = reel.weight > 0 ? Number(((newBalanceWeight / reel.weight) * 100).toFixed(1)) : 0;
-  let emailAlert: { triggered: boolean; sent: boolean; recipient: string; percentage: number } | undefined = undefined;
+  let lowStockAlert: {
+    triggered: boolean;
+    reelNo: string;
+    millName: string;
+    sizeDesc: string;
+    gsm: number;
+    initialWeight: number;
+    consumedWeight: number;
+    balanceWeight: number;
+    balancePercentage: number;
+    message: string;
+  } | undefined = undefined;
 
   if (balancePercentage <= 20) {
-    try {
-      const emailRes = await sendLowStockAlert({
-        reelNo: reel.reelNo,
-        millName: reel.millName,
-        sizeDesc: reel.sizeDesc,
-        gsm: reel.gsm,
-        bf: reel.bf,
-        weight: reel.weight,
-        consumedWeight: newUsedWeight,
-        balanceWeight: newBalanceWeight,
-        balancePercentage,
-        machineId: params.machineId,
-        jobOrderNo: params.jobOrderNo,
-        user: params.user,
-        date: consumedDate,
-      });
+    lowStockAlert = {
+      triggered: true,
+      reelNo: reel.reelNo,
+      millName: reel.millName,
+      sizeDesc: reel.sizeDesc,
+      gsm: reel.gsm,
+      initialWeight: reel.weight,
+      consumedWeight: newUsedWeight,
+      balanceWeight: newBalanceWeight,
+      balancePercentage,
+      message: `Low Stock Alert: Reel #${reel.reelNo} (${reel.millName}, ${reel.gsm} GSM) balance weight reached ${balancePercentage}% (${newBalanceWeight} KG remaining)!`,
+    };
 
-      emailAlert = {
-        triggered: true,
-        sent: emailRes.sent || emailRes.simulated,
-        recipient: emailRes.recipient,
-        percentage: balancePercentage,
-      };
-    } catch (emailErr) {
-      console.error('Failed to trigger low stock alert email:', emailErr);
+    try {
+      await prisma.auditLog.create({
+        data: {
+          action: 'CONSUME',
+          entityName: 'REEL',
+          entityId: reel.reelNo,
+          details: `[IN-APP ALERT] Low stock threshold reached (<= 20%): Reel #${reel.reelNo} balance weight is now ${balancePercentage}% (${newBalanceWeight} KG / ${reel.weight} KG)`,
+          user: params.user || 'Machine Operator',
+        },
+      });
+    } catch (logErr) {
+      console.error('Failed to write low stock audit log:', logErr);
     }
   }
 
@@ -323,7 +345,8 @@ export async function consumeReel(params: {
       remarks: log.remarks ?? undefined,
       createdAt: log.createdAt.toISOString(),
     },
-    emailAlert,
+    lowStockAlert,
+    emailAlert: undefined,
   };
 }
 

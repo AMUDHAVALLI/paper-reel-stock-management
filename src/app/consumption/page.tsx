@@ -6,6 +6,8 @@ import {
   Search,
   CheckCircle2,
   AlertCircle,
+  AlertTriangle,
+  X,
   Clock,
   RotateCcw,
   Factory,
@@ -16,7 +18,7 @@ import { useApp } from '@/components/AppShell';
 import { Reel, ConsumptionLog } from '@/lib/types';
 
 export default function ConsumptionPage() {
-  const { currentRole, triggerRefresh, refreshKey } = useApp();
+  const { currentRole, triggerRefresh, refreshKey, throwNotification } = useApp();
   const [reels, setReels] = useState<Reel[]>([]);
   const [logs, setLogs] = useState<ConsumptionLog[]>([]);
   const [loading, setLoading] = useState(true);
@@ -36,6 +38,12 @@ export default function ConsumptionPage() {
   const [submitting, setSubmitting] = useState(false);
   const [successMsg, setSuccessMsg] = useState<string | null>(null);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  const [lowStockAlertInfo, setLowStockAlertInfo] = useState<{
+    reelNo: string;
+    millName: string;
+    balanceWeight: number;
+    balancePercentage: number;
+  } | null>(null);
 
   const isOperator = currentRole === 'OPERATOR';
 
@@ -126,9 +134,31 @@ export default function ConsumptionPage() {
       }
 
       let successText = `Successfully consumed ${numConsumed} KG from Reel #${selectedReel.reelNo}! Balance remaining: ${data.data.reel.balanceWeight} KG`;
-      if (data.data?.emailAlert?.triggered) {
-        successText += ` • ⚠️ Low Balance Alert (<= 20%): Email sent to owner (${data.data.emailAlert.recipient})`;
+
+      if (data.data?.lowStockAlert?.triggered) {
+        const alert = data.data.lowStockAlert;
+        setLowStockAlertInfo({
+          reelNo: alert.reelNo,
+          millName: alert.millName,
+          balanceWeight: alert.balanceWeight,
+          balancePercentage: alert.balancePercentage,
+        });
+
+        // Throw In-App Notification Toast
+        throwNotification({
+          type: 'LOW_STOCK',
+          title: 'Low Stock Alert (≤ 20%)',
+          message: `Reel #${alert.reelNo} (${alert.millName}, ${alert.gsm} GSM) balance has reached ${alert.balancePercentage}% (${alert.balanceWeight} KG remaining)!`,
+          reelNo: alert.reelNo,
+          balancePercentage: alert.balancePercentage,
+          balanceWeight: alert.balanceWeight,
+        });
+
+        successText += ` • ⚠️ In-App Alert: Balance reached ${alert.balancePercentage}% (${alert.balanceWeight} KG remaining)!`;
+      } else {
+        setLowStockAlertInfo(null);
       }
+
       setSuccessMsg(successText);
       setSelectedReel(null);
       setConsumedWeight('');
@@ -154,6 +184,36 @@ export default function ConsumptionPage() {
           Issue paper rolls to corrugation lines or sheeters, log partial usages, and maintain real-time roll balance.
         </p>
       </div>
+
+      {/* Low Stock In-App Notification Banner */}
+      {lowStockAlertInfo && (
+        <div className="p-4 rounded-2xl bg-amber-50 border-2 border-amber-400 text-amber-900 text-xs flex items-center justify-between gap-3 shadow-md animate-in fade-in slide-in-from-top-2 duration-200">
+          <div className="flex items-center gap-3">
+            <div className="p-2.5 rounded-xl bg-amber-200 text-amber-800 shrink-0">
+              <AlertTriangle className="w-5 h-5 text-amber-700" />
+            </div>
+            <div>
+              <p className="font-bold font-heading text-sm text-slate-900 flex items-center gap-2">
+                <span>In-App Notification: Reel #{lowStockAlertInfo.reelNo} reached Low Stock (≤ 20%)</span>
+                <span className="px-2 py-0.5 rounded-full text-[10px] font-mono bg-rose-100 text-rose-700 font-black">
+                  {lowStockAlertInfo.balancePercentage}% Remaining
+                </span>
+              </p>
+              <p className="text-slate-600 mt-0.5 font-medium">
+                Mill: <strong>{lowStockAlertInfo.millName}</strong> • Current Balance: <strong className="text-rose-600">{lowStockAlertInfo.balanceWeight} KG</strong>. Factory stock is below 20% safety threshold.
+              </p>
+            </div>
+          </div>
+          <button
+            type="button"
+            onClick={() => setLowStockAlertInfo(null)}
+            className="text-slate-400 hover:text-slate-700 p-1 rounded-lg transition-colors cursor-pointer shrink-0"
+            title="Dismiss notification"
+          >
+            <X className="w-4 h-4" />
+          </button>
+        </div>
+      )}
 
       {/* Notifications */}
       {successMsg && (

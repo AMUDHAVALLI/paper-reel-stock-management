@@ -4,6 +4,8 @@ import { hashPassword } from '@/lib/auth';
 import fs from 'fs';
 import path from 'path';
 
+export const dynamic = 'force-dynamic';
+
 /**
  * Cloud Database Initialization Endpoint
  * When a cloud PostgreSQL database (Neon, Supabase, Vercel Postgres) is connected to Vercel,
@@ -238,50 +240,9 @@ export async function GET() {
     }
     log.push(`4 Default users seeded (admin, accountant, store, operator).`);
 
-    // 4. Seed Reels from JSON if table is empty
+    // 4. Reel table status
     const reelCount = await prisma.reel.count();
-    let seededReels = 0;
-    if (reelCount === 0) {
-      const dataFilePath = path.join(process.cwd(), 'data', 'paper_reel_db.json');
-      if (fs.existsSync(dataFilePath)) {
-        const fileContent = fs.readFileSync(dataFilePath, 'utf-8');
-        const parsed = JSON.parse(fileContent);
-        if (Array.isArray(parsed.reels)) {
-          for (const r of parsed.reels) {
-            await prisma.reel.create({
-              data: {
-                reelNo: r.reelNo,
-                itemType: r.itemType || 'KRAFT_REEL',
-                category: r.category,
-                sizeDesc: r.sizeDesc,
-                sizeValue: r.sizeValue ? Number(r.sizeValue) : null,
-                sizeUnit: r.sizeUnit || 'CM',
-                gsm: Number(r.gsm) || 120,
-                bf: r.bf ? Number(r.bf) : null,
-                weight: Number(r.weight) || 0,
-                usedWeight: Number(r.usedWeight) || 0,
-                balanceWeight: Number(r.balanceWeight) || 0,
-                pricePerKg: Number(r.pricePerKg) || 0,
-                reelAmount: Number(r.reelAmount) || 0,
-                consumedAmount: Number(r.consumedAmount) || 0,
-                balanceAmount: Number(r.balanceAmount) || 0,
-                millName: r.millName || 'UNKNOWN',
-                bayLocation: r.bayLocation || null,
-                status: r.status || 'IN_STOCK',
-                inwardDate: r.inwardDate || '2026-10-25',
-                financialYear: r.financialYear || '2026-2027',
-                isSheet: Boolean(r.isSheet),
-                remarks: r.remarks || null,
-              },
-            });
-            seededReels++;
-          }
-        }
-      }
-      log.push(`Seeded ${seededReels} paper reels from factory data into cloud PostgreSQL.`);
-    } else {
-      log.push(`Reel table already contains ${reelCount} reels. Skipped reel re-seeding.`);
-    }
+    log.push(`Reel table contains ${reelCount} reels.`);
 
     return NextResponse.json({
       success: true,
