@@ -7,6 +7,7 @@ const NEON_IPV4_URL =
 function getDatabaseUrl(): string {
   // 1. If Vercel provided Neon integration env vars:
   if (process.env.POSTGRES_PRISMA_URL) return process.env.POSTGRES_PRISMA_URL;
+  if (process.env.DATABASE_URL) return process.env.DATABASE_URL;
   if (process.env.POSTGRES_URL) return process.env.POSTGRES_URL;
 
   const envUrl = process.env.DATABASE_URL;
