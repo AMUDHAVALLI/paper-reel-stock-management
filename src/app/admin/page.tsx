@@ -131,9 +131,9 @@ export default function AdminPage() {
     setLoading(true);
     try {
       const [rolesRes, usersRes, auditRes] = await Promise.all([
-        fetch('/api/admin/roles'),
-        fetch('/api/admin/users'),
-        fetch('/api/admin/audit'),
+        fetch('/api/admin/roles', { cache: 'no-store' }),
+        fetch('/api/admin/users', { cache: 'no-store' }),
+        fetch('/api/admin/audit', { cache: 'no-store' }),
       ]);
 
       const rolesData = await rolesRes.json();

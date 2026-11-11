@@ -54,7 +54,7 @@ export default function StockRegisterPage() {
   const fetchReels = async () => {
     try {
       setLoading(true);
-      const res = await fetch('/api/reels');
+      const res = await fetch('/api/reels', { cache: 'no-store' });
       const data = await res.json();
       if (data.success) {
         setReels(data.data);

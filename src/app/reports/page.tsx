@@ -28,8 +28,8 @@ export default function ValuationReportsPage() {
 
   useEffect(() => {
     Promise.all([
-      fetch('/api/stats').then((r) => r.json()),
-      fetch('/api/reels').then((r) => r.json()),
+      fetch('/api/stats', { cache: 'no-store' }).then((r) => r.json()),
+      fetch('/api/reels', { cache: 'no-store' }).then((r) => r.json()),
     ]).then(([statsData, reelsData]) => {
       if (statsData.success) {
         setSummary(statsData.data.summary);

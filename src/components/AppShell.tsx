@@ -110,7 +110,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
 
   const fetchLowStockAlerts = async () => {
     try {
-      const res = await fetch('/api/alerts/low-stock');
+      const res = await fetch('/api/alerts/low-stock', { cache: 'no-store' });
       const data = await res.json();
       if (data.success && Array.isArray(data.lowStockReels)) {
         setLowStockReels(data.lowStockReels);
@@ -162,7 +162,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
   // Sync role and load dynamic permissions from PostgreSQL
   const syncPermissions = async () => {
     try {
-      const meRes = await fetch('/api/auth/me');
+      const meRes = await fetch('/api/auth/me', { cache: 'no-store' });
       const meData = await meRes.json();
       if (meData.success && meData.user) {
         setUserSession(meData.user);
@@ -176,7 +176,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
       }
 
       // Also pre-fetch all roles permissions from DB
-      const rolesRes = await fetch('/api/admin/roles');
+      const rolesRes = await fetch('/api/admin/roles', { cache: 'no-store' });
       const rolesData = await rolesRes.json();
       if (rolesData.success && rolesData.roles) {
         const map: Record<string, RolePermissions> = {};

@@ -40,8 +40,8 @@ export default function DashboardPage() {
     try {
       setLoading(true);
       const [statsRes, reelsRes] = await Promise.all([
-        fetch('/api/stats'),
-        fetch('/api/reels?status=IN_STOCK'),
+        fetch('/api/stats', { cache: 'no-store' }),
+        fetch('/api/reels?status=IN_STOCK', { cache: 'no-store' }),
       ]);
 
       const statsData = await statsRes.json();

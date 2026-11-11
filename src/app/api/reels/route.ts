@@ -1,6 +1,10 @@
 import { NextResponse } from 'next/server';
 import { getReels, addReel } from '@/lib/storage';
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+export const fetchCache = 'force-no-store';
+
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
@@ -40,7 +44,17 @@ export async function GET(request: Request) {
       reels = reels.filter((r) => r.isSheet === isSheetBool);
     }
 
-    return NextResponse.json({ success: true, count: reels.length, data: reels });
+    return NextResponse.json(
+      { success: true, count: reels.length, data: reels },
+      {
+        headers: {
+          'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
+          Pragma: 'no-cache',
+          Expires: '0',
+          'Surrogate-Control': 'no-store',
+        },
+      }
+    );
   } catch (error: any) {
     return NextResponse.json({ success: false, error: error.message }, { status: 500 });
   }
@@ -79,7 +93,15 @@ export async function POST(request: Request) {
       remarks: body.remarks,
     }, body.user || 'Admin');
 
-    return NextResponse.json({ success: true, data: reel }, { status: 201 });
+    return NextResponse.json(
+      { success: true, data: reel },
+      {
+        status: 201,
+        headers: {
+          'Cache-Control': 'no-store, no-cache, must-revalidate',
+        },
+      }
+    );
   } catch (error: any) {
     return NextResponse.json({ success: false, error: error.message }, { status: 500 });
   }

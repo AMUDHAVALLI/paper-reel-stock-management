@@ -51,8 +51,8 @@ export default function ConsumptionPage() {
     try {
       setLoading(true);
       const [reelsRes, statsRes] = await Promise.all([
-        fetch('/api/reels'),
-        fetch('/api/stats'),
+        fetch('/api/reels', { cache: 'no-store' }),
+        fetch('/api/stats', { cache: 'no-store' }),
       ]);
 
       const reelsData = await reelsRes.json();
